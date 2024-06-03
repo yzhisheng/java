@@ -26,6 +26,7 @@ replay_pid*
 #忽略
 .idea
 ../*.iml
+**/target/
 /maven/maven_java/maven_java.iml
 /maven/maven_web/maven_web.iml
 /maven/maven_web_plugin/maven_web_plugin.iml
