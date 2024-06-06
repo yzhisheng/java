@@ -29,6 +29,20 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!--   解决依赖冲突（如何选择重复依赖）方式     -->
+        <!--    自动选择原则
+        - 短路优先原则（第一原则）
+          A—>B—>C—>D—>E—>X(version 0.0.1)
+          A—>F—>X(version 0.0.2)
+          则A依赖于X(version 0.0.2)。    -->
+        <!--   测试看是使用b的druid,还是自身的druid,使用自身     -->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.8</version>
+        </dependency>
+
 
     </dependencies>
 

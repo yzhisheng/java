@@ -29,8 +29,8 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.2.16</version>
-            <optional>true</optional> <!--  ，若配置了以下标签，则不能传递   -->
+            <version>1.2.7</version>
+<!--            <optional>true</optional> &lt;!&ndash;  ，若配置了以下标签，则不能传递   &ndash;&gt;-->
         </dependency>
 
 <!--        依赖传递终止**-->
