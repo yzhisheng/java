@@ -20,5 +20,46 @@
             <artifactId>fastjson</artifactId>
             <version>2.0.27</version>
         </dependency>
+
+<!--        **传递的原则**-->
+<!--        在 A 依赖 B，B 依赖 C 的前提下，C 是否能够传递到 A，取决于 B 依赖 C 时使用的依赖范围以及配置-->
+<!--        - B 依赖 C 时使用 compile 范围：可以传递-->
+<!--        - B 依赖 C 时使用 test 或 provided 范围：不能传递，所以需要这样的 jar 包时，就必须在需要的地方明确配置依赖才可以。-->
+<!--        - B 依赖 C 时，若配置了以下标签，则不能传递-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.16</version>
+            <optional>true</optional> <!--  ，若配置了以下标签，则不能传递   -->
+        </dependency>
+
+<!--        依赖传递终止**-->
+
+<!--        -   非compile范围进行依赖传递-->
+<!--        -   使用optional配置终止传递-->
+<!--        -   依赖冲突（传递的依赖已经存在）-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+
     </dependencies>
 </project>
