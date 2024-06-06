@@ -31,3 +31,5 @@ replay_pid*
 /maven/maven_web/maven_web.iml
 /maven/maven_web_plugin/maven_web_plugin.iml
 /maven/maven_web/target/
+/test/test.iml
+**/*.iml
