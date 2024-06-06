@@ -21,32 +21,61 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <!--   依赖管理 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>2.0.27</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.2.16</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.10.2</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 
 
+    <!--    &lt;!&ndash;   子工程会自动依赖父工程的jar &ndash;&gt;-->
+    <!--    &lt;!&ndash;  发现父工程的设置了scope后，子工程依然可以继承，所以父工程定义scope 属性无效 &ndash;&gt;-->
+    <!--    <dependencies>-->
+    <!--        <dependency>-->
+    <!--            <groupId>com.alibaba</groupId>-->
+    <!--            <artifactId>fastjson</artifactId>-->
+    <!--            <version>2.0.27</version>-->
+    <!--        </dependency>-->
 
+    <!--        <dependency>-->
+    <!--            <groupId>org.junit.jupiter</groupId>-->
+    <!--            <artifactId>junit-jupiter-api</artifactId>-->
+    <!--            <version>5.10.2</version>-->
+    <!--            <scope>test</scope>-->
+    <!--        </dependency>-->
 
-    <!--   子工程会自动依赖父工程的jar -->
-    <!--  发现父工程的设置了scope后，子工程依然可以继承，所以父工程定义scope 属性无效 -->
-    <dependencies>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.27</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+    <!--        <dependency>-->
+    <!--            <groupId>javax.servlet</groupId>-->
+    <!--            <artifactId>servlet-api</artifactId>-->
+    <!--            <version>2.5</version>-->
+    <!--            <scope>provided</scope>-->
+    <!--        </dependency>-->
+    <!--    </dependencies>-->
 
 </project>
