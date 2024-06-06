@@ -26,18 +26,26 @@
             <groupId>com.sakura.maven</groupId>
             <artifactId>maven_c</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <!--     依赖排除       -->
+            <!--      此处就想使用B的druid，所以排除传C      -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>druid</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
         <!--    测试工程依赖传递    -->
 
-<!--        概念**-->
-<!--        假如有Maven项目A，项目B依赖A，项目C依赖B。那么我们可以说 C依赖A。也就是说，依赖的关系为：C—>B—>A， 那么我们执行项目C时，会自动把B、A都下载导入到C项目的jar包文件夹中，
-            这就是依赖的传递性。-->
+        <!--        概念**-->
+        <!--        假如有Maven项目A，项目B依赖A，项目C依赖B。那么我们可以说 C依赖A。也就是说，依赖的关系为：C—>B—>A， 那么我们执行项目C时，会自动把B、A都下载导入到C项目的jar包文件夹中，
+                    这就是依赖的传递性。-->
 
-<!--        **作用**-->
-<!--        -   简化依赖导入过程-->
-<!--        -   确保依赖版本正确-->
+        <!--        **作用**-->
+        <!--        -   简化依赖导入过程-->
+        <!--        -   确保依赖版本正确-->
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>maven_b</artifactId>
@@ -52,11 +60,11 @@
           则A依赖于X(version 0.0.2)。    -->
         <!--   测试看是使用b的druid,还是自身的druid,使用自身     -->
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba</groupId>-->
-<!--            <artifactId>druid</artifactId>-->
-<!--            <version>1.2.8</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba</groupId>-->
+        <!--            <artifactId>druid</artifactId>-->
+        <!--            <version>1.2.8</version>-->
+        <!--        </dependency>-->
 
 
     </dependencies>
