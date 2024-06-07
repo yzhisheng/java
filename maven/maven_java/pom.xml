@@ -75,6 +75,16 @@
     </dependencies>
 
 
+    <!-- 将jar包部署到nexus -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-mine</id>
+            <name>Nexus mine</name>
+            <url>http://www.yzhisheng.top:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
     <build>
         <!--  自定义打包名称      -->
         <finalName>maven_java.jar</finalName>
