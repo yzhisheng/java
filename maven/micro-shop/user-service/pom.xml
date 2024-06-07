@@ -23,6 +23,13 @@
             <artifactId>common-service</artifactId>
             <groupId>com.sakura.micro</groupId>
             <version>1.0-SNAPSHOT</version>
+            <!--       排查commons-io     -->
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
