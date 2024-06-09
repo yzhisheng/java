@@ -1,6 +1,6 @@
 package com.sakura.jdbc.learn2.dao;
 
-import com.sakura.jdbc.learn2.bean.Customer;
+import com.sakura.jdbc.bean.Customer;
 
 import java.sql.Connection;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.sakura.jdbc.learn2.bean;
+package com.sakura.jdbc.bean;
 
 import java.util.Date;
 
