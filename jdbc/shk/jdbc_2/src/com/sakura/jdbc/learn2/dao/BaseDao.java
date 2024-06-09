@@ -1,4 +1,6 @@
-package com.sakura.jdbc.util;
+package com.sakura.jdbc.learn2.dao;
+
+import com.sakura.jdbc.util.JDBCUtils;
 
 import java.lang.reflect.Field;
 import java.sql.*;

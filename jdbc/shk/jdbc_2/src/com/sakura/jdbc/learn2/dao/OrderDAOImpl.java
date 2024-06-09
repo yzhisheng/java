@@ -1,7 +1,5 @@
 package com.sakura.jdbc.learn2.dao;
 
-import com.sakura.jdbc.util.BaseDao;
-
 /**
  * @Description
  * @ClassName OrderDAOImpl
