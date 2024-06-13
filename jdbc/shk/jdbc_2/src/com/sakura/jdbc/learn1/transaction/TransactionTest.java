@@ -1,7 +1,7 @@
 package com.sakura.jdbc.learn1.transaction;
 
 import com.sakura.jdbc.util.JDBCUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.sql.*;
