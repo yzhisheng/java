@@ -1,17 +1,18 @@
 package com.sakura.test;
 
-import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.setting.dialect.Props;
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.fastjson.JSON;
+import oracle.sql.BLOB;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.junit.Test;
 
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,40 +24,67 @@ import java.util.stream.Collectors;
  */
 public class NoncarCoreTest {
 
-    private static DruidDataSource dataSource = new DruidDataSource();
+    public Map<String, InputStream> getBlobAsInputStream(String query) {
 
-    static {
+        Map<String, InputStream> resultMap = new HashMap();
+
+        Connection conn = null;
         try {
-            // 读取 properties 文件
-            Props properties = new Props("db.properties", CharsetUtil.UTF_8);
+            QueryRunner runner = new QueryRunner();
+            conn = JDBCUtils.getDruidConnection();
+            String sql = query;
 
+            MapListHandler handler = new MapListHandler();
+            List<Map<String, Object>> list = runner.query(conn, sql, handler);
 
-            String url = "jdbc:oracle:thin:@%s:%s/%s";
-            String format = String.format(url, properties.getProperty("prd.host"), properties.getProperty("prd.port"), properties.getProperty("prd.sid"));
-            // 设置数据库连接信息
-            dataSource.setUrl(format);
-            dataSource.setUsername(properties.getProperty("prd.userName"));
-            dataSource.setPassword(properties.getProperty("prd.password"));
+            if (CollectionUtil.isNotEmpty(list)) {
+                for (Map<String, Object> map : list) {
 
-            // 配置Druid连接池
-            dataSource.setInitialSize(Integer.parseInt(properties.getProperty("druid.initialSize")));
-            dataSource.setMaxActive(Integer.parseInt(properties.getProperty("druid.maxActive")));
-            dataSource.setMinIdle(Integer.parseInt(properties.getProperty("druid.minIdle")));
-            dataSource.setMaxWait(Integer.parseInt(properties.getProperty("druid.maxWait")));
-            dataSource.setTimeBetweenEvictionRunsMillis(Long.parseLong(properties.getProperty("druid.timeBetweenEvictionRunsMillis")));
-            dataSource.setMinEvictableIdleTimeMillis(Long.parseLong(properties.getProperty("druid.minEvictableIdleTimeMillis")));
-            dataSource.setValidationQuery(properties.getProperty("druid.validationQuery"));
+                    //下载图片
+                    if (map.containsKey("C_IMAGE_NAME") && null != map.get("C_IMAGE_NAME")) {
+                        String cImageName = map.get("C_IMAGE_NAME").toString();
+                        if (null != cImageName && !cImageName.isEmpty()) {
+                            BLOB bImage = (BLOB) map.get("B_IMAGE");
+                            String filePath = "E:/blobsavedfile/" + map.get("C_IMAGE_NAME").toString();
+                            FileUtil.writeFromStream(bImage.getBinaryStream(), filePath);
+                        }
+                    }
 
+                    BLOB bTemplate = (BLOB) map.get("B_TEMPLATE");
+                    resultMap.put((String) map.get("C_TEMPLATE_NAME"), bTemplate.getBinaryStream());
+                }
+            }
         } catch (Exception e) {
-            System.out.println("初始化数据库连接异常!,异常原因:" + e.getMessage());
             e.printStackTrace();
+        } finally {
+            JDBCUtils.closeResource(conn, null);
         }
+        return resultMap;
     }
 
+    @Test
+    public void exportBlobData() {
 
-    //获取连接
-    public Connection getConnection() throws Exception {
-        return dataSource.getConnection();
+        // 假设查询语句和需要读取的列名以及记录ID
+        String query = "select * from web_prn_fmp where  C_PRN_FMP like '%040003%'   and C_PRN_TYPE ='T_pdf'";
+        query = "select * from web_prn_fmp where  C_PRN_FMP like '%040003%'   and C_PRN_TYPE ='P_pdf'";
+        query = "select * from web_prn_fmp where  C_PRN_FMP like '%040013%'   and C_PRN_TYPE ='P_pdf'";
+
+        // 获取 Blob 输入流
+        Map<String, InputStream> map = getBlobAsInputStream(query);
+
+        if (CollectionUtil.isNotEmpty(map)) {
+            // 定义保存路径和文件名
+            String filePath = "E:/blobsavedfile/";
+            for (String str : map.keySet()) {
+                FileUtil.writeFromStream(map.get(str), filePath + str);
+            }
+            // 将 Blob 数据保存为文件
+            System.out.println("Blob 数据已成功保存为文件：" + filePath);
+        } else {
+            System.out.println("无法从数据库中获取 Blob 数据.");
+        }
+
     }
 
     /**
@@ -104,9 +132,11 @@ public class NoncarCoreTest {
 
         // 创建PreparedStatement
         Connection connection = null;
+        ResultSet resultSet = null;
+        Statement stmt = null;
         try {
 
-            int j= 1;
+            int j = 1;
             for (String tableStr : queryMap.keySet()) {
                 if (StrUtil.isNotBlank(tableStr)) {
                     tableName = tableStr;
@@ -118,12 +148,12 @@ public class NoncarCoreTest {
 
 
                     // 2. 获取表的列信息
-                    connection = getConnection();
+                    connection = JDBCUtils.getDruidConnection();
                     DatabaseMetaData dbMetaData = connection.getMetaData();
 
                     // 3. 查询表以获取数据
-                    Statement stmt = connection.createStatement();
-                    ResultSet resultSet = stmt.executeQuery(sql);
+                    stmt = connection.createStatement();
+                    resultSet = stmt.executeQuery(sql);
                     ResultSetMetaData rsMetaData = resultSet.getMetaData();
                     int columnCount = rsMetaData.getColumnCount();
 
@@ -135,9 +165,9 @@ public class NoncarCoreTest {
                     }
 
 
-                    if(!resultSet.next()){
-                        System.out.println("--"+j+"、"+tableName+"未查询到数据!");
-                    }else{
+                    if (!resultSet.next()) {
+                        System.out.println("--" + j + "、" + tableName + "未查询到数据!");
+                    } else {
                         StringBuilder insertSql = new StringBuilder();
                         insertSql.append("INSERT INTO ").append(tableName);
                         if (StrUtil.isNotBlank(columnNames)) {
@@ -178,7 +208,7 @@ public class NoncarCoreTest {
 
 
                         // 输出或使用生成的INSERT语句
-                        System.out.println("--"+j+"、" + tableName + "");
+                        System.out.println("--" + j + "、" + tableName + "");
                         System.out.println(insertSql.toString());
                     }
 
@@ -197,23 +227,9 @@ public class NoncarCoreTest {
             System.out.println(String.format("读取【%s】表失败,查询sql【%s】", tableName, sql));
             e.printStackTrace();
         } finally {
-            if (null != connection) {
-                try {
-                    connection.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (null != dataSource) {
-                try {
-                    dataSource.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            JDBCUtils.closeResource(connection, stmt, resultSet);
+
         }
-
-
     }
 
 }
