@@ -25,6 +25,16 @@ public class Employee {
 
     private Car car;
 
+    private Status status;
+
+    public Employee(int id, String name, int age, double salary, Status status) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.status = status;
+    }
+
     public Employee(int id, String name, int age, double salary) {
         this.id = id;
         this.name = name;
@@ -43,5 +53,9 @@ public class Employee {
 
     public String show() {
         return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Salary: " + salary;
+    }
+
+    public enum Status {
+        FREE, BUSY, VOCATION;
     }
 }
