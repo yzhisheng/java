@@ -35,4 +35,13 @@ public class Employee {
     public Employee(String name) {
         this.name = name;
     }
+
+    public Employee(String s, Integer integer) {
+        this.age = integer;
+        this.name = s;
+    }
+
+    public String show() {
+        return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Salary: " + salary;
+    }
 }
