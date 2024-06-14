@@ -27,6 +27,14 @@ public class Employee {
 
     private Status status;
 
+    public Employee(int id, String name, int age, double salary, Car car) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.car = car;
+    }
+
     public Employee(int id, String name, int age, double salary, Status status) {
         this.id = id;
         this.name = name;

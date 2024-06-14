@@ -124,7 +124,7 @@ public class TestOptional {
         list.add(new Employee(1, "迪迦", 12, 55.00, new Car("小米", "100")));
         list.add(new Employee(2, "大古", 99, 546, new Car(null, "100")));
         list.add(new Employee(3, "泰罗", 56, 513, new Car("奥迪", "100")));
-        list.add(new Employee(4, "赛文", 87, 9655, null));
+        list.add(new Employee(4, "赛文", 87, 9655,  new Car()));
         list.add(new Employee(5, "艾斯", 25, 123, new Car("奔驰", null)));
 
         List<String> collect = list.stream()
