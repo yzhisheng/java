@@ -1,7 +1,7 @@
 package com.sakura.jdbc.learn4.connection;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -2,7 +2,7 @@ package com.sakura.jdbc.learn3.dao;
 
 import com.sakura.jdbc.bean.Customer;
 import com.sakura.jdbc.learn4.util.JDBCUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -103,10 +103,9 @@ public class CustomerDAOImplTest {
 
             System.out.println("");
         } catch (Exception e) {
-            e.printStackTrace();
+
         }finally{
             JDBCUtils.closeResource(conn, null);
-
         }
     }
 

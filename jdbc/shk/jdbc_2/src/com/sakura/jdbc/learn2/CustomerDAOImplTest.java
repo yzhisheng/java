@@ -3,7 +3,7 @@ package com.sakura.jdbc.learn2;
 import com.sakura.jdbc.bean.Customer;
 import com.sakura.jdbc.learn2.dao.CustomerDAOImpl;
 import com.sakura.jdbc.util.JDBCUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.util.Date;
