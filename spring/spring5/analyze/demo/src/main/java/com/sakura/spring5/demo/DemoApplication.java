@@ -6,15 +6,18 @@ import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.io.Resource;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 
 @SpringBootApplication
 public class DemoApplication {
 
 
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, IOException {
         ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
 /*		1.到底什么是BeanFactory
 		● 它是ApplicationContext的父接口
@@ -35,7 +38,32 @@ public class DemoApplication {
         });
 
 
+        /*3.ApplicationContext比BeanFactory多点啥*/
 
+        //MessageSource  处理国际化资源
+        System.out.println(context.getMessage("hi",null, Locale.CHINESE));//处理国际化资源
+        System.out.println(context.getMessage("hi",null, Locale.ENGLISH));//处理国际化资源
+
+        //ResourcePatternResolver  通配符访问资源
+        Resource[] resources = context.getResources("classpath:application.properties");//到类路径下找文件
+        for (Resource resource : resources) {
+            System.out.println(resource);
+        }
+        resources = context.getResources("classpath*:META-INF/spring.factories");//到类和jar包路径下找文件
+        for (Resource resource : resources) {
+            System.out.println(resource);
+        }
+//        context.getResource("file:sample.txt");//到磁盘路径下找文件
+
+
+        //Environment 处理环境配置信息
+        System.out.println(context.getEnvironment().getProperty("java_home"));
+        System.out.println(context.getEnvironment().getProperty("server.port"));
+
+        //ApplicationEventPublisher  发布事件对象
+//        context.publishEvent(new UserRegisteredEvent(context));
+        //事件可用于业务逻辑解耦
+        context.getBean(Component1.class).register();
     }
 
 }

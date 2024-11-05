@@ -6,19 +6,20 @@ import org.springframework.stereotype.Component;
 
 /**
  * @Description
- * @ClassName Component2
+ * @ClassName Component3
  * @Author Sakura
- * @DateTime 2024-11-05 16:54:33
+ * @DateTime 2024-11-05 18:03:19
  * @Version 1.0
  */
 @Component
 @Slf4j
-public class Component2 {
-    //接收事件
+public class Component3 {
+
+
     @EventListener
     public void receiver(UserRegisteredEvent event){
-        System.out.println("Component2接受到了事件!"+event);
-        System.out.println("我开始发送短信..........................");
-//        log.info("我开始发送短信..........................");
+        System.out.println("Component3接受到了事件!"+event);
+        System.out.println("我开始发送邮件..........................");
+//        log.info("我开始发送邮件..........................");
     }
 }
